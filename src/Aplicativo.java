@@ -32,11 +32,12 @@ public class Aplicativo
             do // laco que passa em cada palavra de uma linha
             {
                 String palavra = linha.getNextWord(); // obtem a proxima palavra da linha
-                lista.addPalavra(palavra, nPagina);
+
                 if (palavra == null)// acabou a linha
                 {
                     break;
                 }
+                lista.addPalavra(palavra, nPagina);
                 System.out.println("-" + palavra + "-");
             } while (true);
 
@@ -46,11 +47,11 @@ public class Aplicativo
 
     public void exe()
     {
-        menu();
         Scanner teclado = new Scanner(System.in);
-        String input = teclado.nextLine();
         boolean sair = false;
         do{
+            menu();
+            String input = teclado.nextLine();
             switch (input)
             {
                 case "1":

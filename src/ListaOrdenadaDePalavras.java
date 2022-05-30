@@ -37,15 +37,23 @@ public class ListaOrdenadaDePalavras {
             Palavra temp = new Palavra(palavra);
             Palavra aux = head;
             int contador = 0;
-            while (contador < count) {
-                if ((aux.s).equals(palavra)) {
-                    aux.contaOcorrencias++;
-                    listaOcorrencias.add(numPagina);
-                } else if (!(aux.s).equals(palavra)) {
-                    tail.next = temp;
-                    tail = temp;
+            if(aux == null)
+            {
+                head = temp;
+                tail = temp;
+            }
+            else
+            {
+                while (contador < count) {
+                    if ((aux.s).equals(palavra)) {
+                        aux.contaOcorrencias++;
+                        this.listaOcorrencias.add(numPagina);
+                    } else if (!(aux.s).equals(palavra)) {
+                        tail.next = temp;
+                        tail = temp;
+                    }
+                    contador++;
                 }
-                contador++;
             }
             count++;
         }

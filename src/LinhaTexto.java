@@ -32,12 +32,22 @@ public class LinhaTexto {
      * @return a palavra, ou null caso nao tenha mais palavras.
      */
     public String getNextWord() {
-      String pal = null;
-      if (contPalavras < palavras.length) {
-          pal = palavras[contPalavras];
-          contPalavras++;
-          contPalavrasTotal++;
-      }
+        arquivo.open("java.txt");
+        String pal = null;
+        do {
+            String stopword = arquivo.getNextLine();
+            if (contPalavras < palavras.length) {
+                pal = palavras[contPalavras];
+                if(pal.equals(stopword))
+                {
+                    pal = " ";
+                    return pal;
+                }
+                    contPalavras++;
+                contPalavrasTotal++;
+            }
+        }
+        while(contPalavras < palavras.length);
       return pal;
     }
     public int getContStopWords()
