@@ -2,6 +2,7 @@
 
 /**
  * Esta classe guarda os numeros das paginas em que uma palavra ocorre.
+ * É uma lista de numeros de pagina.
  * @author Isabel H. Manssour
  */
 public class ListaDeOcorrencias {
@@ -61,7 +62,20 @@ public class ListaDeOcorrencias {
      * recebido por parametro, e false caso contrario.
      */
     public boolean add(int numPagina)  {
-        return false;
+        Node n = new Node(numPagina);
+        if (count == 0) { // se lista vazia
+            head = n; // inclui
+            tail = n;
+            count++;
+            return true;
+        }
+        if (contains(numPagina) ) { // se numPagina ja esta na lista
+            return false; // nao inclui
+        }
+        tail.next = n; // se numPagina nao esta na lista,
+        tail = n;      // insere no final
+        count++;
+        return true;
     }  
     
     /**
@@ -81,6 +95,12 @@ public class ListaDeOcorrencias {
      * @return true se a lista contem o elemento especificado
      */
     public boolean contains(int numPagina) {
+        Node aux = head;
+        while (aux != null) {
+            if (aux.numeroDaPagina == numPagina)
+                return true;
+            aux = aux.next;
+        }
         return false;
     }    
     

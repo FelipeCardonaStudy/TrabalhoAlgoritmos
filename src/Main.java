@@ -4,16 +4,25 @@
  */
 public class Main {
     public static void main(String[] args) {
-        
+
+
     int nLinha = 0;
     int nPagina = 0;
+    int nPalavrasIgnoradas = 0;
     
     ArquivoTexto arquivo = new ArquivoTexto(); // objeto que gerencia o arquivo
     LinhaTexto linha = new LinhaTexto(); // objeto que gerencia uma linha
     String l;
 
-    arquivo.open("ArquivoExemplo.txt");
-    
+    arquivo.open("stopwords.txt");
+    // laco que importa as stopwords.
+    do {
+        String line = arquivo.getNextLine();
+    }
+    while(arquivo.getNextLine() != null);
+
+
+    arquivo.open("java.txt");
     do  // laco que passa em cada linha do arquivo
     {
         l = arquivo.getNextLine();
