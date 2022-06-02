@@ -1,3 +1,4 @@
+import java.util.Locale;
 
 /**
  * Esta classe guarda as palavra do indice remissivo em ordem alfabetica.
@@ -6,7 +7,7 @@
 
 public class ListaOrdenadaDePalavras {
 
-    // Classe interna
+    // Classe interna 
     private class Palavra {
         public String s;
         public ListaDeOcorrencias listaOcorrencias;
@@ -18,86 +19,104 @@ public class ListaOrdenadaDePalavras {
             next = null;
             listaOcorrencias = new ListaDeOcorrencias();
         }
+    }
+    // Atributos
+    private Palavra head;
+    private Palavra tail;
+    private int count;
 
-        // Atributos
-        private Palavra head;
-        private Palavra tail;
-        private int count;
-
-        //Construtores
-
-        public Palavra()
+    // Métodos
+    public void add(String palavra, int numPagina) {
+        if(palavra.equals(""))
         {
 
         }
-
-        // metodo add para adicionar uma palavra na lista de forma ordenada
-        // nao deve receber stopword
-        public void add(String palavra, int numPagina) {
-            Palavra temp = new Palavra(palavra);
-            Palavra aux = head;
-            int contador = 0;
-            if(aux == null)
+        else
+        {
+            Palavra n = new Palavra(palavra);
+            boolean adicionou = false;
+            if (head == null)
             {
-                head = temp;
-                tail = temp;
+                head = n;
+                n.contaOcorrencias++;
+                n.listaOcorrencias.add(numPagina);
+                tail = n;
+                count++;
             }
             else
             {
-                while (contador < count) {
-                    if ((aux.s).equals(palavra)) {
-                        aux.contaOcorrencias++;
-                        this.listaOcorrencias.add(numPagina);
-                    } else if (!(aux.s).equals(palavra)) {
-                        tail.next = temp;
-                        tail = temp;
-                    }
-                    contador++;
-                }
-            }
-            count++;
-        }
-
-        // metodo toString
-
-        public String toString() {
-            Palavra aux = head;
-            int contador = 0;
-            String texto = "";
-            while (contador < count) {
-                texto += aux.s + "(" + aux.contaOcorrencias + "Ocorrência(s))\n" + aux.listaOcorrencias.toString() + "\n";
-
-            }
-            return texto.toString();
-        }
-
-        // demais metodos necessarios
-
-        public String getPalavraQueMaisOcorreu()
-        {
-            Palavra aux = head;
-            Palavra maisOcorrida = head;
-            int contador = 0;
-            while(contador < count)
-            {
-                if(aux.contaOcorrencias < maisOcorrida.contaOcorrencias)
+                Palavra temp = head;
+                for(int i = 0; i < count; i ++)
                 {
-                    maisOcorrida = aux;
+
+                    if(temp.s.toLowerCase().equals(palavra.toLowerCase()))
+                    {
+                        temp.contaOcorrencias++;
+                        temp.listaOcorrencias.add(numPagina);
+                        adicionou = true;
+                        break;
+                    }
+                    temp = temp.next;
+                }
+                if(adicionou == false)
+                {
+                    n.contaOcorrencias++;
+                    n.listaOcorrencias.add(numPagina);
+                    tail.next = n;
+                    tail = n;
+                    count++;
                 }
             }
-            return maisOcorrida.s;
         }
     }
 
-    Palavra palavra = new Palavra();
-
-    public void addPalavra(String palavra, int numPagina)
+    public String palavraMaisFrequente()
     {
-        this.palavra.add(palavra, numPagina);
+        Palavra palavraMaisFrequente = head;
+        Palavra temp = head;
+        for(int i = 0; i < count; i++)
+        {
+            if(temp.contaOcorrencias > palavraMaisFrequente.contaOcorrencias)
+            {
+                palavraMaisFrequente = temp;
+            }
+            temp = temp.next;
+        }
+        return palavraMaisFrequente.s;
     }
-    public String getPalavraQMO()
+
+    public ListaDeOcorrencias pesquisaPalavra(String palavra)
     {
-        return this.palavra.getPalavraQueMaisOcorreu();
+        ListaDeOcorrencias lista = new ListaDeOcorrencias();
+        Palavra temp = head;
+        for(int i = 0; i < count; i++)
+        {
+            if(temp.s.toLowerCase().equals(palavra.toLowerCase()))
+            {
+                lista = temp.listaOcorrencias;
+            }
+        }
+        return lista;
+    }
+
+
+
+    // metodo toString
+
+    @Override
+    public String toString()
+    {
+        StringBuilder s = new StringBuilder();
+
+        Palavra aux = head;
+
+        while (aux != null) {
+            s.append(aux.s + " (" + aux.contaOcorrencias + " ocorrência(s))");
+            s.append("\n");
+            s.append("Página(s): " + aux.listaOcorrencias.toString());
+            s.append("\n");
+            aux = aux.next;
+        }
+        return s.toString();
     }
 }
-
